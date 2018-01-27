@@ -1,12 +1,16 @@
-package nja
+package main.scala
+
+import main.scala.lexer.Token
+
 import scala.io.Source
 
 /**
   * Main object of the NinjaAssembler
   */
-class Main {
+object Main {
   var filePath: String = ""
-  var assembly: Iterator[String] = _
+  var input: Iterator[String] = Iterator.empty
+  var tokens: List[(Int, List[Token])] = List.empty
 
   def main(args: Array[String]): Unit = {
     for (x: String <- args) {
@@ -18,13 +22,13 @@ class Main {
           println("Ninja Assembler version 0.0.1")
           return
         case _ =>
-          val s: String = _
-          if (!s.startsWith("--")) {
-            filePath = s
+          if (!x.startsWith("--")) {
+            filePath = x
           }
       }
     }
 
-    assembly = Source.fromFile(filePath).getLines()
+    input = Source.fromFile(filePath).getLines()
+    //
   }
 }

@@ -1,4 +1,4 @@
-package nja.lexer
+package main.scala.lexer
 
 // General definition of Token
 class Token()
@@ -7,7 +7,7 @@ class Token()
 class InstructionToken extends Token
 
 case class HALT() extends InstructionToken
-case class PUSHC(const: Int) extends InstructionToken
+case class PUSHC() extends InstructionToken
 
 case class ADD() extends InstructionToken
 case class SUB() extends InstructionToken
@@ -20,13 +20,13 @@ case class WRINT() extends InstructionToken
 case class RDCHR() extends InstructionToken
 case class WRCHR() extends InstructionToken
 
-case class PUSHG(index: Int) extends InstructionToken
-case class POPG(index: Int) extends InstructionToken
+case class PUSHG() extends InstructionToken
+case class POPG() extends InstructionToken
 
-case class ASF(size: Int) extends InstructionToken
+case class ASF() extends InstructionToken
 case class RSF() extends InstructionToken
-case class PUSHL(offset: Int) extends InstructionToken
-case class POPL(offset: Int) extends InstructionToken
+case class PUSHL() extends InstructionToken
+case class POPL() extends InstructionToken
 
 case class EQ() extends InstructionToken
 case class NE() extends InstructionToken
@@ -35,25 +35,25 @@ case class LE() extends InstructionToken
 case class GT() extends InstructionToken
 case class GE() extends InstructionToken
 
-case class JMP(target: Int) extends InstructionToken
-case class BRF(target: Int) extends InstructionToken
-case class BRT(target: Int) extends InstructionToken
+case class JMP() extends InstructionToken
+case class BRF() extends InstructionToken
+case class BRT() extends InstructionToken
 
-case class CALL(target: Int) extends InstructionToken
+case class CALL() extends InstructionToken
 case class RET() extends InstructionToken
-case class DROP(amount: Int) extends InstructionToken
+case class DROP() extends InstructionToken
 case class PUSHR() extends InstructionToken
 case class POPR() extends InstructionToken
 
 case class DUP() extends InstructionToken
 
-case class NEW(fields: Int) extends InstructionToken
-case class GETF(offset: Int) extends InstructionToken
-case class PUTF(offset: Int) extends InstructionToken
+case class NEW() extends InstructionToken
+case class GETF() extends InstructionToken
+case class PUTF() extends InstructionToken
 
-case class NEWA(fields: Int) extends InstructionToken
-case class GETFA(offset: Int) extends InstructionToken
-case class PUTFA(offset: Int) extends InstructionToken
+case class NEWA() extends InstructionToken
+case class GETFA() extends InstructionToken
+case class PUTFA() extends InstructionToken
 
 case class GETSZ() extends InstructionToken
 
