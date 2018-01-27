@@ -56,12 +56,49 @@ object Lexer {
 
   private def parseToken(token: String): Token = {
     token.toLowerCase match {
-      case "halt" =>
-        new HALT
-      case "pushc" =>
-        new PUSHC
-      case "add" =>
-        new ADD
+      case "halt" =>  new HALT
+      case "pushc" => new PUSHC
+      case "add" =>   new ADD
+      case "sub" =>   new SUB
+      case "mul" =>   new MUL
+      case "div" =>   new DIV
+      case "mod" =>   new MOD
+      case "rdint" => new RDINT
+      case "wrint" => new WRINT
+      case "rdchr" => new RDCHR
+      case "wrchr" => new WRCHR
+      case "pushg" => new PUSHG
+      case "popg" =>  new POPG
+      case "asf" =>   new ASF
+      case "rsf" =>   new RSF
+      case "pushl" => new PUSHL
+      case "popl" =>  new POPL
+      case "eq" =>    new EQ
+      case "ne" =>    new NE
+      case "lt" =>    new LT
+      case "le" =>    new LE
+      case "gt" =>    new GT
+      case "ge" =>    new GE
+      case "jmp" =>   new JMP
+      case "brf" =>   new BRF
+      case "brt" =>   new BRT
+      case "call" =>  new CALL
+      case "ret" =>   new RET
+      case "drop" =>  new DROP
+      case "pushr" => new PUSHR
+      case "popr" =>  new POPR
+      case "dup" =>   new DUP
+      case "new" =>   new NEW
+      case "getf" =>  new GETF
+      case "putf" =>  new PUTF
+      case "newa" =>  new NEWA
+      case "getfa" => new GETFA
+      case "putfa" => new PUTFA
+      case "getsz" => new GETSZ
+      case "pushn" => new PUSHN
+      case "refeq" => new REFEQ
+      case "refne" => new REFNE
+
       case _ =>
         new SyntaxErrorToken
     }
