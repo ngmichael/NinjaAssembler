@@ -45,12 +45,23 @@ object Lexer {
 
       pos += 1
     }
+
+    if (currentToken.nonEmpty) {
+      tokens += parseToken(currentToken)
+      tokens += new EOLToken
+    }
+
+    tokens.toList
   }
 
   private def parseToken(token: String): Token = {
     token.toLowerCase match {
       case "halt" =>
         new HALT
+      case "pushc" =>
+        new PUSHC
+      case "add" =>
+        new ADD
       case _ =>
         new SyntaxErrorToken
     }

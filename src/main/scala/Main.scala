@@ -1,6 +1,6 @@
 package main.scala
 
-import main.scala.lexer.Token
+import main.scala.lexer.{Lexer, Token}
 
 import scala.io.Source
 
@@ -13,8 +13,8 @@ object Main {
   var tokens: List[(Int, List[Token])] = List.empty
 
   def main(args: Array[String]): Unit = {
-    for (x: String <- args) {
-      x match {
+    for (s: String <- args) {
+      s match {
         case "--help" =>
           println()
           return
@@ -22,13 +22,14 @@ object Main {
           println("Ninja Assembler version 0.0.1")
           return
         case _ =>
-          if (!x.startsWith("--")) {
-            filePath = x
+          if (!s.startsWith("--")) {
+            filePath = s
           }
       }
     }
 
     input = Source.fromFile(filePath).getLines()
-    //
+    tokens = Lexer.generateTokenList(input)
+    print(tokens)
   }
 }
