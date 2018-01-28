@@ -34,7 +34,9 @@ object Main {
     input = Source.fromFile(filePath).getLines()
     tokens = Lexer.generateTokenList(input)
     instructions = Parser.parse(tokens)
-    println(instructions)
+    for (i: Instruction <- instructions) {
+      println(i.toString)
+    }
     // binaryCode = CodeGenerator.generate(instructions)
   }
 }

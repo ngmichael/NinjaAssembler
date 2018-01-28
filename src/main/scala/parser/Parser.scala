@@ -1,21 +1,36 @@
 package main.scala.parser
 
-import main.scala.lexer
 import main.scala.lexer._
 
 import scala.collection.mutable.ListBuffer
 
 //noinspection ComparingLength
 object Parser {
+  var labels: Map[String, Int] = Map.empty
 
   def parse(tokens: List[(Int, List[Token])]): List[Instruction] = {
     val instructions: ListBuffer[Instruction] = ListBuffer.empty
+    labels = Map.empty
 
+    // Find label tokens first and resolve their address
+    for (line: (Int, List[Token]) <- tokens) {
+      line._2.head match {
+        case token: LabelToken => // Check if line is label def
+          if (line._2.length == 2 && line._2(1).isInstanceOf[EOLToken]) { // Check syntax
+            val key: String = token.label
+            val value: Int = tokens.indexOf(line)
+            labels = labels + (key -> value)
+          }
+        case _ =>
+      }
+    }
+
+    // Parse the rest
     for (line: (Int, List[Token]) <- tokens) {
       instructions += parseTokenList(line._1, line._2)
     }
 
-    instructions.toList
+    instructions.toList.filter(p => p != null)
   }
 
   private def parseTokenList(lineNumber: Int, line: List[Token]): Instruction = {
@@ -99,22 +114,28 @@ object Parser {
         if (noImmediate(line)) return Ge()
         Noop(lineNumber)
       case _: JMP =>
-        if (numberImmediate(line)) return Jmp(line(1).asInstanceOf[NumberToken].value)
+        if (identifierImmediate(line)) return Jmp(identifier2Addr(line(1)))
         Noop(lineNumber)
       case _: BRF =>
-        if (numberImmediate(line)) return Brf(line(1).asInstanceOf[NumberToken].value)
+        if (identifierImmediate(line)) return Brf(identifier2Addr(line(1)))
         Noop(lineNumber)
       case _: BRT =>
-        if (numberImmediate(line)) return Brt(line(1).asInstanceOf[NumberToken].value)
+        if (identifierImmediate(line)) return Brt(identifier2Addr(line(1)))
         Noop(lineNumber)
       case _: CALL =>
-        if (numberImmediate(line)) return Call(line(1).asInstanceOf[NumberToken].value)
+        if (identifierImmediate(line)) return Call(identifier2Addr(line(1)))
         Noop(lineNumber)
       case _: RET =>
         if (noImmediate(line)) return Ret()
         Noop(lineNumber)
       case _: DROP =>
         if (numberImmediate(line)) return Drop(line(1).asInstanceOf[NumberToken].value)
+        Noop(lineNumber)
+      case _: PUSHR =>
+        if(noImmediate(line)) return Pushr()
+        Noop(lineNumber)
+      case _: POPR =>
+        if (noImmediate(line)) return Popr()
         Noop(lineNumber)
       case _: DUP =>
         if (noImmediate(line)) return Dup()
@@ -149,6 +170,7 @@ object Parser {
       case _: REFNE =>
         if (noImmediate(line)) return Refne()
         Noop(lineNumber)
+      case _: LabelToken => null
       case _: Any =>
         Noop(lineNumber)
     }
@@ -160,7 +182,13 @@ object Parser {
 
   private def charImmediate(line: List[Token]): Boolean = line.length == 3 && line(1).isInstanceOf[CharacterToken] && line(2).isInstanceOf[EOLToken]
 
-  private def convertCharImmediate(token: CharacterToken): Int = {
-    0
+  private def convertCharImmediate(token: CharacterToken): Int = token.value.toInt
+
+  private def identifierImmediate(line: List[Token]): Boolean = line(1).isInstanceOf[IdentifierToken] && line(2).isInstanceOf[EOLToken]
+
+  private def identifier2Addr(token: Token): Int = {
+    val addr: Option[Int] = labels.get(token.asInstanceOf[IdentifierToken].value)
+    if (addr.isEmpty) -1
+    else addr.get
   }
 }
