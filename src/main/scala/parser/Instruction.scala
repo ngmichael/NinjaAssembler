@@ -2,59 +2,59 @@ package main.scala.parser
 
 class Instruction {}
 
-case class HALT() extends Instruction
-case class PUSHC(constant: Int) extends Instruction
+case class Halt() extends Instruction
+case class Pushc(constant: Int) extends Instruction
 
-case class ADD() extends Instruction
-case class SUB() extends Instruction
-case class MUL() extends Instruction
-case class DIV() extends Instruction
-case class MOD() extends Instruction
+case class Add() extends Instruction
+case class Sub() extends Instruction
+case class Mul() extends Instruction
+case class Div() extends Instruction
+case class Mod() extends Instruction
 
-case class RDINT() extends Instruction
-case class WRINT() extends Instruction
-case class RDCHR() extends Instruction
-case class WRCHR() extends Instruction
+case class Rdint() extends Instruction
+case class Wrint() extends Instruction
+case class Rdchr() extends Instruction
+case class Wrchr() extends Instruction
 
-case class PUSHG(index: Int) extends Instruction
-case class POPG(index: Int) extends Instruction
+case class Pushg(index: Int) extends Instruction
+case class Popg(index: Int) extends Instruction
 
-case class ASF(size: Int) extends Instruction
-case class RSF() extends Instruction
-case class PUSHL(offset: Int) extends Instruction
-case class POPL(offset: Int) extends Instruction
+case class Asf(size: Int) extends Instruction
+case class Rsf() extends Instruction
+case class Pushl(offset: Int) extends Instruction
+case class Popl(offset: Int) extends Instruction
 
-case class EQ() extends Instruction
-case class NE() extends Instruction
-case class LT() extends Instruction
-case class LE() extends Instruction
-case class GT() extends Instruction
-case class GE() extends Instruction
+case class Eq() extends Instruction
+case class Ne() extends Instruction
+case class Lt() extends Instruction
+case class Le() extends Instruction
+case class Gt() extends Instruction
+case class Ge() extends Instruction
 
-case class JMP(target: Int) extends Instruction
-case class BRF(target: Int) extends Instruction
-case class BRT(target: Int) extends Instruction
+case class Jmp(target: Int) extends Instruction
+case class Brf(target: Int) extends Instruction
+case class Brt(target: Int) extends Instruction
 
-case class CALL(target: Int) extends Instruction
-case class RET() extends Instruction
-case class DROP(amount: Int) extends Instruction
-case class PUSHR() extends Instruction
-case class POPR() extends Instruction
+case class Call(target: Int) extends Instruction
+case class Ret() extends Instruction
+case class Drop(amount: Int) extends Instruction
+case class Pushr() extends Instruction
+case class Popr() extends Instruction
 
-case class DUP() extends Instruction
+case class Dup() extends Instruction
 
-case class NEW(size: Int) extends Instruction
-case class GETF(offset: Int) extends Instruction
-case class PUTF(offset: Int) extends Instruction
+case class New(size: Int) extends Instruction
+case class Getf(offset: Int) extends Instruction
+case class Putf(offset: Int) extends Instruction
 
-case class NEWA(size: Int) extends Instruction
-case class GETFA(offset: Int) extends Instruction
-case class PUTFA(offset: Int) extends Instruction
+case class Newa(size: Int) extends Instruction
+case class Getfa(offset: Int) extends Instruction
+case class Putfa(offset: Int) extends Instruction
 
-case class GETSZ() extends Instruction
+case class Getsz() extends Instruction
 
-case class PUSHN() extends Instruction
-case class REFEQ() extends Instruction
-case class REFNE() extends Instruction
+case class Puhsn() extends Instruction
+case class Refeq() extends Instruction
+case class Refne() extends Instruction
 
-case class NoOp(line: Int, col: Int) extends Instruction
+case class Noop(line: Int) extends Instruction
