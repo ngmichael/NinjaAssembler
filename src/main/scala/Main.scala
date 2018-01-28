@@ -30,6 +30,5 @@ object Main {
 
     input = Source.fromFile(filePath).getLines()
     tokens = Lexer.generateTokenList(input)
-    print(tokens)
   }
 }

@@ -61,7 +61,6 @@ object Lexer {
 
   private def parseToken(token: String): Token = {
     if (token == null || token.isEmpty) return null
-    println(token)
     token.toLowerCase match {
       case "halt" =>  new HALT
       case "pushc" => new PUSHC
