@@ -112,7 +112,7 @@ object Lexer {
         else {
           val character: String = token.replace("'", "")
           if (character.length == 1)
-            return CharacterToken(character)
+            return CharacterToken(character.head)
           else if (character.length == 2 && character.head == '\\') {
             var c: Char = ' '
             character(1) match {
@@ -122,7 +122,7 @@ object Lexer {
                 c = '\t'
               case _ =>
             }
-            if (c != ' ') return CharacterToken(c.toString)
+            if (c != ' ') return CharacterToken(c)
             else return new SyntaxErrorToken
           }
 

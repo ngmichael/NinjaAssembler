@@ -63,7 +63,7 @@ case class REFNE() extends InstructionToken
 
 // Misc Tokens
 case class NumberToken(value: Int) extends Token
-case class CharacterToken(value: String) extends Token
+case class CharacterToken(value: Char) extends Token
 case class IdentifierToken(value: String) extends Token
 case class LabelToken(label: String) extends Token
 case class EOLToken() extends Token
