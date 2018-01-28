@@ -6,7 +6,7 @@ object Lexer {
 
   val constantNumberMatcher: String = "(0|-?[1-9][0-9]*)"
   val identifierMatcher: String = "[A-Za-z_][A-Za-z0-9_]*"
-  val charMatcher: String = "('.'|'\\[nrtba'\". \\]')"
+  val charMatcher: String = "'\n'"
 
 
   def generateTokenList(codeLines: Iterator[String]): List[(Int, List[Token])] = {
@@ -61,6 +61,7 @@ object Lexer {
 
   private def parseToken(token: String): Token = {
     if (token == null || token.isEmpty) return null
+    println(token)
     token.toLowerCase match {
       case "halt" =>  new HALT
       case "pushc" => new PUSHC
@@ -106,11 +107,29 @@ object Lexer {
       case "refne" => new REFNE
 
       case _ =>
-        if (token.matches(constantNumberMatcher)) return NumberToken(token.toInt)
-        else if (token.matches(identifierMatcher)) return IdentifierToken(token)
-        else if (token.matches(identifierMatcher + ':')) return LabelToken(token.replace(":", ""))
-        else if (token.matches(charMatcher)) return CharacterToken(token.replace("'", ""))
-        new SyntaxErrorToken
+        if (token.matches(constantNumberMatcher)) NumberToken(token.toInt)
+        else if (token.matches(identifierMatcher)) IdentifierToken(token)
+        else if (token.matches(identifierMatcher + ':')) LabelToken(token.replace(":", ""))
+        else {
+          val character: String = token.replace("'", "")
+          if (character.length == 1)
+            return CharacterToken(character)
+          else if (character.length == 2 && character.head == '\\') {
+            var c: Char = ' '
+            character(1) match {
+              case 'n' =>
+                c = '\n'
+              case 't' =>
+                c = '\t'
+              case _ =>
+            }
+            if (c != ' ') return CharacterToken(c.toString)
+            else return new SyntaxErrorToken
+          }
+
+
+          new SyntaxErrorToken
+        }
     }
   }
 }
