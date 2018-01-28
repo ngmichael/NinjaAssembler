@@ -4,9 +4,14 @@ import scala.collection.mutable.ListBuffer
 
 object Lexer {
 
+  val constantNumberMatcher: String = "(0|-?[1-9][0-9]*)"
+  val identifierMatcher: String = "[A-Za-z_][A-Za-z0-9_]*"
+  val charMatcher: String = "('.'|'\\[nrtba'\". \\]')"
+
+
   def generateTokenList(codeLines: Iterator[String]): List[(Int, List[Token])] = {
     val tokenLines: ListBuffer[(Int, List[Token])] = ListBuffer.empty
-    var lineNumber: Int = 0
+    var lineNumber: Int = 1
 
     while(codeLines.hasNext) {
       val line: String = codeLines.next()
@@ -15,7 +20,7 @@ object Lexer {
       lineNumber += 1
     }
 
-    tokenLines.toList
+    tokenLines.filter(line => line._2.nonEmpty && line._2.exists(p => !p.isInstanceOf[EOLToken])).toList
   }
 
   private def parseLine(line: String): List[Token] = {
@@ -25,7 +30,7 @@ object Lexer {
 
     while (pos < line.length) {
       line(pos) match {
-        case ' ' => // Scanning of next token complete -> parse token
+        case ' ' | '\t' => // Scanning of next token complete -> parse token
           tokens += parseToken(currentToken)
           currentToken = ""
         case '\n' =>
@@ -51,10 +56,11 @@ object Lexer {
       tokens += new EOLToken
     }
 
-    tokens.toList
+    tokens.filter((p: Token) => p != null).toList
   }
 
   private def parseToken(token: String): Token = {
+    if (token == null || token.isEmpty) return null
     token.toLowerCase match {
       case "halt" =>  new HALT
       case "pushc" => new PUSHC
@@ -100,6 +106,10 @@ object Lexer {
       case "refne" => new REFNE
 
       case _ =>
+        if (token.matches(constantNumberMatcher)) return NumberToken(token.toInt)
+        else if (token.matches(identifierMatcher)) return IdentifierToken(token)
+        else if (token.matches(identifierMatcher + ':')) return LabelToken(token.replace(":", ""))
+        else if (token.matches(charMatcher)) return CharacterToken(token.replace("'", ""))
         new SyntaxErrorToken
     }
   }
