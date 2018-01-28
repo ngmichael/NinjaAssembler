@@ -53,7 +53,7 @@ case class Putfa(offset: Int) extends Instruction
 
 case class Getsz() extends Instruction
 
-case class Puhsn() extends Instruction
+case class Pushn() extends Instruction
 case class Refeq() extends Instruction
 case class Refne() extends Instruction
 
