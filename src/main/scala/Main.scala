@@ -13,6 +13,7 @@ object Main {
   var input: Iterator[String] = Iterator.empty
   var tokens: List[(Int, List[Token])] = List.empty
   var instructions: List[Instruction] = List.empty
+  var binaryCode: List[Byte] = List.empty
 
   // Parse command line arguments
   def main(args: Array[String]): Unit = {
@@ -34,9 +35,9 @@ object Main {
     input = Source.fromFile(filePath).getLines()
     tokens = Lexer.generateTokenList(input)
     instructions = Parser.parse(tokens)
-    for (i: Instruction <- instructions) {
-      println(i.toString)
+    binaryCode = CodeGenerator.generate(instructions)
+    for (i: Byte <- binaryCode) {
+      println(i.toHexString)
     }
-    // binaryCode = CodeGenerator.generate(instructions)
   }
 }
