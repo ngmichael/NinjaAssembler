@@ -47,9 +47,9 @@ case class New(size: Int) extends Instruction
 case class Getf(offset: Int) extends Instruction
 case class Putf(offset: Int) extends Instruction
 
-case class Newa(size: Int) extends Instruction
-case class Getfa(offset: Int) extends Instruction
-case class Putfa(offset: Int) extends Instruction
+case class Newa() extends Instruction
+case class Getfa() extends Instruction
+case class Putfa() extends Instruction
 
 case class Getsz() extends Instruction
 

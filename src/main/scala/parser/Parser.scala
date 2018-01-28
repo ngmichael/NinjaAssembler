@@ -150,13 +150,13 @@ object Parser {
         if (numberImmediate(line)) return Putf(line(1).asInstanceOf[NumberToken].value)
         Noop(lineNumber)
       case _: NEWA =>
-        if (numberImmediate(line)) return Newa(line(1).asInstanceOf[NumberToken].value)
+        if (noImmediate(line)) return Newa()
         Noop(lineNumber)
       case _: GETFA =>
-        if (numberImmediate(line)) return Getfa(line(1).asInstanceOf[NumberToken].value)
+        if (noImmediate(line)) return Getfa()
         Noop(lineNumber)
       case _: PUTFA =>
-        if (numberImmediate(line)) return Putfa(line(1).asInstanceOf[NumberToken].value)
+        if (noImmediate(line)) return Putfa()
         Noop(lineNumber)
       case _: GETSZ =>
         if (noImmediate(line)) return Getsz()
