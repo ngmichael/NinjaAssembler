@@ -18,12 +18,14 @@ object Parser {
         case token: LabelToken => // Check if line is label def
           if (line._2.length == 2 && line._2(1).isInstanceOf[EOLToken]) { // Check syntax
             val key: String = token.label
-            val value: Int = tokens.indexOf(line)
+            val value: Int = tokens.indexOf(line)-labels.size
             labels = labels + (key -> value)
           }
         case _ =>
       }
     }
+
+    println(labels)
 
     // Parse the rest
     for (line: (Int, List[Token]) <- tokens) {
