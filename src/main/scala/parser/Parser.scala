@@ -25,8 +25,6 @@ object Parser {
       }
     }
 
-    println(labels)
-
     // Parse the rest
     for (line: (Int, List[Token]) <- tokens) {
       instructions += parseTokenList(line._1, line._2)
